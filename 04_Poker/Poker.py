@@ -12,21 +12,43 @@
 # Straße übers Eck dabei oder nicht ausprobieren
 import random
 
+
+class Karte:
+    VALUES = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "B", "D", "K", "A"]
+    FARBEN = ["Kreuz", "Pik", "Herz", "Karo"]
+
+    def __init__(self, value_index, farben_index):
+        self.value = self.VALUES[value_index]
+        self.farbe = self.FARBEN[farben_index]
+        self.value_index = value_index  # für vergleiche (0-12)
+
+    def __repr__(self):
+        return f"{self.value} {self.farbe[:5]}"
+
+
+def erstelle_alle_karten():
+    karten = []
+    for farben_index in range(4):
+        for value_index in range(13):
+            karten.append(Karte(value_index, farben_index))
+    return karten
+
+
 def flush(gezogen):
     farben = set()
-    for i in gezogen:
-        farben.add(i // 13)
+    for karte in gezogen:
+        farben.add(karte.farbe)
     if len(farben) == 1:
         return True
     return False
 
 
 def pair(gezogen):
-    symbole = [karte % 13 for karte in gezogen]
+    values = [karte.value_index for karte in gezogen]
     pair_count = 0
 
-    for symbol in symbole:
-        if symbole.count(symbol) == 2:
+    for value in values:
+        if values.count(value) == 2:
             pair_count += 1
 
     pair_count = pair_count // 2
@@ -38,50 +60,45 @@ def pair(gezogen):
     else:
         return False
 
+
 def drillinge(gezogen):
-    symbole = [karte % 13 for karte in gezogen]
-    for symbol in symbole:
-        if symbole.count(symbol) == 3:
+    values = [karte.value_index for karte in gezogen]
+    for value in values:
+        if values.count(value) == 3:
             return True
     return False
+
 
 def vierling(gezogen):
-    symbole = [karte % 13 for karte in gezogen]
-    for symbol in symbole:
-        if symbole.count(symbol) == 4:
+    values = [karte.value_index for karte in gezogen]
+    for value in values:
+        if values.count(value) == 4:
             return True
     return False
-
-def colors(gezogen):
-    color = set()
-    for i in gezogen:
-        color.add(i // 13)
-    print(color)
-    return len(color)
 
 
 def strasse(gezogen):
-    symbole = sorted([karte % 13 for karte in gezogen])
+    values = sorted([karte.value_index for karte in gezogen])
 
     # normale strasse
-    if symbole[4] - symbole[0] == 4 and len(set(symbole)) == 5:
+    if values[4] - values[0] == 4 and len(set(values)) == 5:
         return True
 
-    # strasse übers Eck (A-2-3-4-5)
-    if symbole == [0, 1, 2, 3, 12]:
+    # strasse übers eck (A-2-3-4-5): [0,1,2,3,12]
+    if values == [0, 1, 2, 3, 12]:
         return True
 
     return False
 
+
 def main():
-    karten = range(0,52)
-    gezogen = []
-    for i in range(5):
-        gezogen.append(random.choice(karten))
+    deck = erstelle_alle_karten()
 
-    gezogen.sort()
-    print(gezogen)
+    # ziehe 5 zufällige karten
+    gezogen = random.sample(deck, 5)
 
+    print("Gezogene Karten: ", gezogen)
+    print()
     print("Flush: ", flush(gezogen))
     print("Paar: ", pair(gezogen))
     print("Drillinge: ", drillinge(gezogen))
