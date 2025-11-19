@@ -91,19 +91,91 @@ def strasse(gezogen):
     return False
 
 
-def main():
+def royalFlush(gezogen):
+    values = sorted([karte.value_index for karte in gezogen])
+
+    if values == [8, 9, 10, 11, 12]:
+        return True
+
+    return False
+
+
+def full_house(gezogen):
+    values = [karte.value_index for karte in gezogen]
+    counts = {}
+
+    for value in values:
+        counts[value] = values.count(value)
+
+    # Full House = 3 gleiche + 2 gleiche
+    if sorted(counts.values()) == [2, 3]:
+        return True
+    return False
+
+
+def identifiziere_kombination(gezogen):
+    # Unwahrscheinlichste zuerst
+    if flush(gezogen) and royalFlush(gezogen):
+        return "Royal Flush"
+    if vierling(gezogen):
+        return "Vierling"
+    if full_house(gezogen):
+        return "Full House"
+    if flush(gezogen) and strasse(gezogen):
+        return "Straight Flush"
+    if flush(gezogen):
+        return "Flush"
+    if strasse(gezogen):
+        return "Strasse"
+    if drillinge(gezogen):
+        return "Drillinge"
+
+    pair_result = pair(gezogen)
+    if pair_result:
+        return pair_result
+
+    return "Höchste Karte"
+
+
+def simuliere(x):
+    # spielt 100.000 Mal und zählt die Kombinationen
     deck = erstelle_alle_karten()
+    kombinationen = {}
 
-    # ziehe 5 zufällige karten
-    gezogen = random.sample(deck, 5)
+    for _ in range(x):
+        gezogen = random.sample(deck, 5)
+        kombi = identifiziere_kombination(gezogen)
 
-    print("Gezogene Karten: ", gezogen)
-    print()
-    print("Flush: ", flush(gezogen))
-    print("Paar: ", pair(gezogen))
-    print("Drillinge: ", drillinge(gezogen))
-    print("Vierling: ", vierling(gezogen))
-    print("Strasse: ", strasse(gezogen))
+        if kombi not in kombinationen:
+            kombinationen[kombi] = 0
+        kombinationen[kombi] += 1
+
+    return kombinationen
+
+
+def statistik(kombinationen, x):
+    # Statistik mit prozentuellen Anteilen
+    total = sum(kombinationen.values())
+    prozentsatze = [50.13, 42.25, 4.75, 2.11, 0.39, 0.20, 0.14, 0.02, 0.00135, 0.00015]
+
+    print(f"\n{'Kombination':<20} {'Anzahl':<10} {'Prozent':<20} {'Relative Abweichung':20}")
+
+    # Sortiere nach Häufigkeit (absteigend)
+    for i, (kombi, count) in enumerate(sorted(kombinationen.items(), key=lambda x: x[1], reverse=True)):
+        prozent = (count / total) * 100
+
+        relativProzent = (prozentsatze[i] - prozent) / prozent
+
+        print(f"{kombi:<20} {count:<10} {prozent:>10f}% {relativProzent:>20f}%")
+
+    print(f"{'TOTAL':<20} {total:<10}")
+
+
+def main():
+    x = 100000
+    print(f"Simuliere {x} Pokerspiele...")
+    kombinationen = simuliere(x)
+    statistik(kombinationen, x)
 
 
 if __name__ == "__main__":
