@@ -98,15 +98,6 @@ def waehle_rabatt_typ(betrag):
     return rabatt_typ
 
 
-# Lambda mit Ternary Operator
-def finde_maximum(a, b):
-    if a > b:
-        result = a
-    else:
-        result = b
-    return result
-
-
 # Print mit Ternary Operator
 def vergleiche_und_drucke(a, b):
     if a > b:

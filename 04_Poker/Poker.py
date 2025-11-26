@@ -10,8 +10,11 @@
 # flush + straße = royal flush
 # unwahrscheinlichste zuerst wahrscheinlichste zuletzt
 # Straße übers Eck dabei oder nicht ausprobieren
-import random
 
+# Ternärer Operator in Zeile 55
+# Dict-Ternär Zeile 44
+import random
+import unittest
 
 class Karte:
     VALUES = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "B", "D", "K", "A"]
@@ -26,7 +29,7 @@ class Karte:
         return f"{self.value} {self.farbe[:5]}"
 
 
-def erstelle_alle_karten():
+def erstelleAlleKarten():
     karten = []
     for farben_index in range(4):
         for value_index in range(13):
@@ -38,10 +41,9 @@ def flush(gezogen):
     farben = set()
     for karte in gezogen:
         farben.add(karte.farbe)
-    if len(farben) == 1:
-        return True
-    return False
 
+    # Dict-Ternär
+    return {True: True, False: False}[len(farben) == 1]
 
 def pair(gezogen):
     values = [karte.value_index for karte in gezogen]
@@ -53,13 +55,8 @@ def pair(gezogen):
 
     pair_count = pair_count // 2
 
-    if pair_count == 1:
-        return "one pair"
-    elif pair_count == 2:
-        return "two pair"
-    else:
-        return False
-
+    # Ternärer Operator mit if-else
+    return "two pair" if pair_count == 2 else "one pair" if pair_count == 1 else False
 
 def drillinge(gezogen):
     values = [karte.value_index for karte in gezogen]
@@ -139,7 +136,7 @@ def identifiziere_kombination(gezogen):
 
 def simuliere(x):
     # spielt 100.000 Mal und zählt die Kombinationen
-    deck = erstelle_alle_karten()
+    deck = erstelleAlleKarten()
     kombinationen = {}
 
     for _ in range(x):
@@ -177,6 +174,30 @@ def main():
     kombinationen = simuliere(x)
     statistik(kombinationen, x)
 
+class TestPoker(unittest.TestCase):
+    def testFlush(self):
+        karten = [Karte(12,0), Karte(5,0), Karte(2, 0), Karte(0, 0), Karte(7,0)]
+        self.assertTrue(flush(karten),"Fehler")
+
+        karten = [Karte(12,2), Karte(5,1), Karte(2, 0), Karte(0, 0), Karte(7,0)]
+        self.assertFalse(flush(karten), "Fehler")
+
+    def testPair(self):
+        karten = [Karte(0, 0), Karte(0, 1), Karte(2, 0), Karte(3, 0), Karte(4, 0)]
+        self.assertEqual(pair(karten), "one pair")
+
+        karten = [Karte(0, 0), Karte(0, 1), Karte(2, 0), Karte(2, 1), Karte(4, 0)]
+        self.assertEqual(pair(karten), "two pair")
+
+    def test_strasse(self):
+        karten = [Karte(0, 0), Karte(1, 1), Karte(2, 2), Karte(3, 3), Karte(4, 0)]
+        self.assertTrue(strasse(karten))
+
+    def test_full_house(self):
+        # Test (3+2)
+        karten = [Karte(0, 0), Karte(0, 1), Karte(0, 2), Karte(1, 0), Karte(1, 1)]
+        self.assertTrue(full_house(karten))
 
 if __name__ == "__main__":
+    unittest.main(exit=False)
     main()

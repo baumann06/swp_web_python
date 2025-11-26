@@ -1,6 +1,5 @@
 import random
 
-
 def klassifiziere_zahl(zahl):
     klassifikation = "negativ" if zahl < 0 else "null" if zahl == 0 else "positiv"
     return klassifikation
@@ -36,7 +35,7 @@ def markiere_zahlen(zahlen):
     return result
 
 
-# Tuple Indexing Method
+# Tuple Method
 def finde_groessere(a, b):
     result = (b,a)[a>b]
     return result
