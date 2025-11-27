@@ -81,7 +81,7 @@ def strasse(gezogen):
     if values[4] - values[0] == 4 and len(set(values)) == 5:
         return True
 
-    # strasse übers eck (A-2-3-4-5): [0,1,2,3,12]
+    # strasse übers Eck (A-2-3-4-5): [0,1,2,3,12]
     if values == [0, 1, 2, 3, 12]:
         return True
 
