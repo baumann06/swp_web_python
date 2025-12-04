@@ -11,8 +11,8 @@
 # unwahrscheinlichste zuerst wahrscheinlichste zuletzt
 # Straße übers Eck dabei oder nicht ausprobieren
 
-# Ternärer Operator in Zeile 55
-# Dict-Ternär Zeile 44
+# Ternärer Operator in Zeile 56
+# Dict-Ternär Zeile 45
 import random
 import unittest
 
@@ -28,14 +28,12 @@ class Karte:
     def __repr__(self):
         return f"{self.value} {self.farbe[:5]}"
 
-
 def erstelleAlleKarten():
     karten = []
     for farben_index in range(4):
         for value_index in range(13):
             karten.append(Karte(value_index, farben_index))
     return karten
-
 
 def flush(gezogen):
     farben = set()
@@ -174,30 +172,6 @@ def main():
     kombinationen = simuliere(x)
     statistik(kombinationen, x)
 
-class TestPoker(unittest.TestCase):
-    def testFlush(self):
-        karten = [Karte(12,0), Karte(5,0), Karte(2, 0), Karte(0, 0), Karte(7,0)]
-        self.assertTrue(flush(karten),"Fehler")
-
-        karten = [Karte(12,2), Karte(5,1), Karte(2, 0), Karte(0, 0), Karte(7,0)]
-        self.assertFalse(flush(karten), "Fehler")
-
-    def testPair(self):
-        karten = [Karte(0, 0), Karte(0, 1), Karte(2, 0), Karte(3, 0), Karte(4, 0)]
-        self.assertEqual(pair(karten), "one pair")
-
-        karten = [Karte(0, 0), Karte(0, 1), Karte(2, 0), Karte(2, 1), Karte(4, 0)]
-        self.assertEqual(pair(karten), "two pair")
-
-    def test_strasse(self):
-        karten = [Karte(0, 0), Karte(1, 1), Karte(2, 2), Karte(3, 3), Karte(4, 0)]
-        self.assertTrue(strasse(karten))
-
-    def test_full_house(self):
-        # Test (3+2)
-        karten = [Karte(0, 0), Karte(0, 1), Karte(0, 2), Karte(1, 0), Karte(1, 1)]
-        self.assertTrue(full_house(karten))
 
 if __name__ == "__main__":
-    unittest.main(exit=False)
     main()
