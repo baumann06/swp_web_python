@@ -1,0 +1,56 @@
+@startuml
+
+' Basisklasse
+class Personen {
+    - vorname: str
+    - nachname: str
+    - geschlecht: str
+    - alter: int
+    + __str__()
+}
+
+' Mitarbeiter erbt von Personen
+class Mitarbeiter {
+    - mitarbeiterId: int
+    - abteilung: Abteilung
+    + __str__()
+}
+
+Personen <|-- Mitarbeiter
+
+' Abteilungsleiter erbt von Mitarbeiter
+class Abteilungsleiter {
+    + __str__()
+}
+
+Mitarbeiter <|-- Abteilungsleiter
+
+' Abteilung enthält Mitarbeiter
+class Abteilung {
+    - abteilungsId: int
+    - abteilungsname: str
+    - abteilungsleiter: Abteilungsleiter
+    - mitarbeiter: List[Mitarbeiter]
+    + addMitarbeiter(m: Mitarbeiter)
+    + removeMitarbeiter(m: Mitarbeiter)
+    + setAbteilungsleiter(l: Abteilungsleiter)
+    + getAbteilungsleiter()
+    + anzahlMitarbeiter(): int
+}
+
+Abteilung "1" o-- "*" Mitarbeiter
+Abteilung "0..1" o-- "1" Abteilungsleiter
+
+' Firma enthält Abteilungen
+class Firma {
+    - firmenname: str
+    - abteilungen: List[Abteilung]
+    + addAbteilung(a: Abteilung)
+    + removeAbteilung(a: Abteilung)
+    + anzahlMitarbeiter(): int
+    + maxAbteilung(): Abteilung
+}
+
+Firma "1" o-- "*" Abteilung
+
+@enduml
