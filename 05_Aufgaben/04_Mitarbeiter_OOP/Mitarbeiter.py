@@ -1,21 +1,13 @@
-class Mitarbeiter():
-    MAENNLICH = "m"
-    WEIBLICH = "w"
+from Personen import Personen
 
+class Mitarbeiter(Personen):
     def __init__(self, mitarbeiterId, vorname, nachname, geschlecht, alter):
         self.mitarbeiterId = mitarbeiterId
-        self.vorname = vorname
-        self.nachname = nachname
-        self.alter = alter
         self.abteilung = None
 
-        if geschlecht not in (Mitarbeiter.MAENNLICH, Mitarbeiter.WEIBLICH):
-            raise ValueError("Geschlecht muss m oder w sein")
-        self.geschlecht = geschlecht
+        super().__init__(vorname, nachname, geschlecht, alter)
 
 
     def __str__(self):
-        return (f"Mitarbeiter {self.vorname} {self.nachname} "
-                f"mit der Id {self.mitarbeiterId} ist {self.geschlecht} "
-                f"und {self.alter} alt.")
+        return f"Mitarbeiter {super().__str__()} Hat die Mitarbeiter ID {self.mitarbeiterId}."
 
