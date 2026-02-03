@@ -9,19 +9,37 @@ class Auto():
         return self.ps
 
     def __add__(self, other):
-        return self.ps + other.ps
+        if isinstance(other, Auto):
+            return self.ps + other.ps
+        else:
+            raise TypeError("Muss vom Typ Auto sein")
 
     def __sub__(self, other):
-        return self.ps - other.ps
+        if isinstance(other, Auto):
+            return self.ps - other.ps
+        else:
+            raise TypeError("Muss vom Typ Auto sein")
 
     def __mul__(self, other):
-        return self.ps * other.ps
+        if isinstance(other, Auto):
+            return self.ps * other.ps
+        else:
+            raise TypeError("Muss vom Typ Auto sein")
 
     def __eq__(self, other):
-        return self.ps == other.ps
+        if isinstance(other, Auto):
+            return self.ps == other.ps
+        else:
+            raise TypeError("Muss vom Typ Auto sein")
 
     def __lt__(self, other):
-        return self.ps < other.ps
+        if isinstance(other, Auto):
+            return self.ps < other.ps
+        else:
+            raise TypeError("Muss vom Typ Auto sein")
 
     def __gt__(self, other):
-        return self.ps > other.ps
+        if isinstance(other, Auto):
+            return self.ps > other.ps
+        else:
+            raise TypeError("Muss vom Typ Auto sein")

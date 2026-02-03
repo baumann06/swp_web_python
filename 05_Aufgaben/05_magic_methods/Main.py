@@ -1,8 +1,8 @@
 from Auto import Auto
 
 def main():
-    a1 = Auto(60)
-    a2 = Auto(50)
+    a1 = Auto(120)
+    a2 = Auto(200)
 
     print(a1)
     print(len(a1))
