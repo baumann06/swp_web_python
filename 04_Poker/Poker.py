@@ -15,6 +15,7 @@
 # Dict-Ternär Zeile 45
 import random
 import unittest
+from decorators import timer
 
 class Karte:
     VALUES = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "B", "D", "K", "A"]
@@ -131,7 +132,7 @@ def identifiziere_kombination(gezogen):
 
     return "Höchste Karte"
 
-
+@timer
 def simuliere(x):
     # spielt 100.000 Mal und zählt die Kombinationen
     deck = erstelleAlleKarten()
@@ -147,7 +148,7 @@ def simuliere(x):
 
     return kombinationen
 
-
+@timer
 def statistik(kombinationen, x):
     # Statistik mit prozentuellen Anteilen
     total = sum(kombinationen.values())
@@ -165,13 +166,11 @@ def statistik(kombinationen, x):
 
     print(f"{'TOTAL':<20} {total:<10}")
 
-
 def main():
     x = 100000
-    print(f"Simuliere {x} Pokerspiele...")
+    print(f"Simuliere {x} Pokerspiele ...")
     kombinationen = simuliere(x)
     statistik(kombinationen, x)
-
 
 if __name__ == "__main__":
     main()
