@@ -16,12 +16,12 @@ def repeat(func):
         func(*args, **kwargs)
     return repeater
 
-def say_hello(name):
+def hello(name):
     print(f"Hallo {name}")
 
 def main():
-    new_say_hello = repeat(say_hello)
-    new_say_hello("Bruno")
+    new_hello = repeat(hello)
+    new_hello("Bruno")
 
 if __name__ == '__main__':
     main()
