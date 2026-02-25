@@ -15,5 +15,10 @@ def main():
     triple = multiply_by(3)
     print(triple(5))  # 15
 
+    geh(1,2,99, **{"pro":"Jo"})
+
+def geh(a,b,c=42, **data):
+    pass
+
 if __name__ == '__main__':
     main()
