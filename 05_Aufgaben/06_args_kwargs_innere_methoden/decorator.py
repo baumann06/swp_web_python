@@ -14,6 +14,12 @@ def repeat(n):
         def wrapper(*args, **kwargs):
             for i in range(n):
                 print(f"[REPEAT] Durchlauf {i+1}")
+                count = 0
+                for a in args:
+                    count += 1
+                for b in kwargs:
+                    count += 1
+                print(f"[REPEAT] Parameter: {count}")
                 func(*args, **kwargs)
         return wrapper
     return decorator
