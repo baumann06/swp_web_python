@@ -1,5 +1,4 @@
 from Knoten import Knoten
-import random
 
 class LinkedList:
     def __init__(self):
